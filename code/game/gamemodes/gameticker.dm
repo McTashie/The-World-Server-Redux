@@ -43,7 +43,6 @@ var/global/datum/controller/gameticker/ticker
 	'sound/music/starvetheego.ogg')
 
 	send2mainirc("Server lobby is loaded and open at byond://[config.serverurl ? config.serverurl : (config.server ? config.server : "[world.address]:[world.port]")]")
-	global_initialize_webhooks()
 
 	do
 		pregame_timeleft = 180
@@ -403,20 +402,11 @@ var/global/datum/controller/gameticker/ticker
 
 	if(!config.canonicity) //if we're not canon in config or by gamemode, nothing will save.
 		world << "<H2>This round was not canon. It was all a dream.</H2>"
+		roll_titles()
 	else
-		world << "<H2>This round was canon.</H2>"
+		if(save_world())
+			world << "<H2>This round was canon.</H2>"
 
-		//saves all department accounts
-		persistent_economy.save_accounts()
-
-		//save politics related data
-		SSelections.save_data.save_candidates()
-
-		//saves all characters
-		for (var/mob/living/carbon/human/H in mob_list) //only humans, we don't really save AIs or robots.
-			H.save_mob_to_prefs()
-
-	roll_titles()
 	for(var/mob/Player in player_list)
 		if(Player.mind && !isnewplayer(Player))
 			if(Player.stat != DEAD)

@@ -2,7 +2,7 @@
 // Handles initialization of political parties and assigning presidents on the server.
 //
 
-
+var/global/list/government_emails = list("president@nanotrasen.gov.nt", "vice-president@nanotrasen.gov.nt")
 
 SUBSYSTEM_DEF(elections)
 	name = "Elections"
@@ -33,6 +33,10 @@ SUBSYSTEM_DEF(elections)
 	var/list/datum/president_candidate/former_candidates = list()
 
 	var/snap_election
+
+	var/last_election_date
+
+	var/president_email
 
 
 /datum/president_candidate
@@ -81,7 +85,10 @@ SUBSYSTEM_DEF(elections)
 	return info
 
 /datum/controller/subsystem/elections/proc/get_president()
-	return "<b>[SSelections.current_president.name]</b> - Played by </b>[SSelections.current_president.ckey]</b> (Won [SSelections.current_president.ckeys_voted.len] out of [SSelections.last_election_votes].)"
+	var/prez
+	if(SSelections.current_president && current_president.ckey)
+		prez = "<b>[SSelections.current_president.name]</b> - Played by </b>[SSelections.current_president.ckey]</b> (Won [SSelections.current_president.ckeys_voted.len] out of [SSelections.last_election_votes].)"
+	return prez
 
 /proc/get_president_info()
 	var/info
@@ -101,26 +108,22 @@ SUBSYSTEM_DEF(elections)
 	CheckNoConfidence()
 	SetNewPresident()
 
-/datum/controller/subsystem/elections/proc/GetLastElectionTotalVotes()
-	var/votes = 0
-	for(var/datum/president_candidate/cand in former_candidates)
-		if(cand.ckeys_voted)
-			votes += cand.ckeys_voted.len
 
-	if(current_president.ckeys_voted)
-		votes += current_president.ckeys_voted.len
-
-	return votes
-
+/datum/controller/subsystem/elections/proc/SetupEmails()
+	//makes sure an email exists for these emails.
+	for(var/E in government_emails)
+		if(!check_persistent_email(E))
+			new_persistent_email(E)
 
 /datum/controller/subsystem/elections/proc/CheckNoConfidence()
 	if(!current_president) // This shouldn't happen except for when you start the same anew.
 		snap_election = 1
 		if(!vice_president)
 			current_president = new/datum/president_candidate()
-			current_president.name = "NanoTrasen Officials"
+			current_president.name = "NanoTrasen"
 		else
 			current_president = vice_president
+			vice_president = null
 
 		return 1
 
@@ -130,13 +133,18 @@ SUBSYSTEM_DEF(elections)
 			former_presidents += current_president
 			if(!vice_president)
 				current_president = new/datum/president_candidate()
-				current_president.name = "NanoTrasen Officials"
+				current_president.name = "NanoTrasen"
 			else
 				current_president = vice_president
+				vice_president = null
 			return 1
 
 /datum/controller/subsystem/elections/proc/SetNewPresident()
-	if(!(get_next_election_month() == get_game_month() && get_game_day() > 27))
+	if(!last_election_date)
+		last_election_date = full_game_time()
+		return 0
+
+	if(!(Days_Difference(last_election_date , full_game_time() ) > 28 && is_election_day(get_game_day()) ))
 //		message_admins("Returned: [get_next_election_month()] vs current month: [get_game_month()] and test day being [get_game_day()]", 1)
 		return 0
 
@@ -167,36 +175,51 @@ SUBSYSTEM_DEF(elections)
 
 	winning_vote = highest_voted
 
-	if(winning_vote)
-//		message_admins("Picked [winning_vote.name] as winning vote.", 1)
-	else
-		message_admins("ERROR: No winning vote chosen at election.", 1)
+	if(!winning_vote)
+//		message_admins("ERROR: No winning vote chosen at election.", 1)
 		return 0
 
 
-	//get rid of all votes so things are fresh again for next time.
-	for(var/datum/president_candidate/PC in political_candidates)
-		PC.ckeys_voted = null
+//	message_admins("Picked [winning_vote.name] as winning vote.", 1)
 
-	former_presidents += current_president // make the current president into the former president
+	//clear the current president's votes and make them into a former president
+	current_president.no_confidence_votes = list()
+	current_president.ckeys_voted = list()
+	former_presidents += current_president
 
-	current_president.no_confidence_votes = null // fuck em
+	//make way for the new president.
 	current_president = winning_vote // make the winning vote the president
-
-
 	political_candidates -= current_president // remove president from candidate pool
 
-	former_candidates = political_candidates // make the current candidates into the former ones.
-	political_candidates = null // yeet the current candidates
 
+	//get rid of all votes and candidates
+	for(var/datum/president_candidate/PC in political_candidates)
+		PC.ckeys_voted = list()
+	former_candidates += political_candidates
+	political_candidates = list() // yeet the current candidates
+
+	//make things fresh for the next election
 	last_election_votes = total_votes
 	total_votes = 0
 	snap_election = 0
+	last_election_date = full_game_time()
 
-	if(!current_president)
+	if(!current_president) // shouldn't happen, but just in case.
 		CheckNoConfidence()
 
 	return 1
+
+/datum/controller/subsystem/elections/proc/clear_president()
+	//clear the current president's votes and make them into a former president
+	current_president.no_confidence_votes = list()
+	current_president.ckeys_voted = list()
+	former_presidents += current_president
+	current_president = null
+
+	CheckNoConfidence()
+	return 1
+
+
 
 //Testing only.
 /*
@@ -217,5 +240,5 @@ SUBSYSTEM_DEF(elections)
 
 	return 1
 
-*/
 
+*/

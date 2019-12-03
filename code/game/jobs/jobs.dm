@@ -37,7 +37,7 @@ var/const/BARTENDER				=(1<<1)
 var/const/BOTANIST				=(1<<2)
 var/const/CHEF					=(1<<3)
 var/const/JANITOR				=(1<<4)
-var/const/LIBRARIAN				=(1<<5)
+var/const/JOURNALIST				=(1<<5)
 var/const/QUARTERMASTER			=(1<<6)
 var/const/CARGOTECH				=(1<<7)
 var/const/MINER					=(1<<8)
@@ -65,9 +65,9 @@ var/list/assistant_occupations = list(
 
 
 var/list/gov_positions = list(
-	"Nanotrasen CEO",
+	"NanoTrasen Sector Administrator",
 	"Nanotrasen Representative",
-	"CBIA Agent",
+	"PDSI Agent",
 	"President"
 )
 
@@ -106,7 +106,7 @@ var/list/science_positions = list(
 	"Geneticist",	//Part of both medical and science
 	"Roboticist",
 	"Xenobiologist",
-	"Science Intern"
+	"Research Assistant"
 )
 
 //BS12 EDIT
@@ -123,7 +123,7 @@ var/list/civilian_positions = list(
 	"Botanist",
 	"Chef",
 	"Sanitation Technician",
-	"Librarian",
+	"Journalist",
 	"Defense Attorney",
 	"Chaplain",
 	"Civilian",

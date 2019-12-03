@@ -20,6 +20,8 @@
 	var/active_regen = FALSE //Used for the regenerate proc in human_powers.dm
 	var/active_regen_delay = 300
 
+	var/unique_id						//used for keeping track of characters.
+
 /mob/living/carbon/human/New(var/new_loc, var/new_species = null)
 
 	if(!dna)
@@ -991,9 +993,9 @@
 	return 1 //we applied blood to the item
 
 /mob/living/carbon/human/proc/get_full_print()
-	if(!dna ||!dna.uni_identity)
+	if(!unique_id)
 		return
-	return md5(dna.uni_identity)
+	return unique_id
 
 /mob/living/carbon/human/clean_blood(var/washshoes)
 	. = ..()

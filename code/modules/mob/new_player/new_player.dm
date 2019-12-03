@@ -498,6 +498,9 @@
 	new_character.dna.ready_dna(new_character)
 	new_character.dna.b_type = client.prefs.b_type
 	new_character.sync_organ_dna()
+
+	new_character.unique_id = client.prefs.unique_id
+
 	if(client.prefs.disabilities)
 		// Set defer to 1 if you add more crap here so it only recalculates struc_enzymes once. - N3X
 		new_character.dna.SetSEState(GLASSESBLOCK,1,0)
@@ -535,6 +538,7 @@
 /mob/new_player/proc/close_spawn_windows()
 
 	src << browse(null, "window=latechoices") //closes late choices window
+	src << browse(null, "window=News") //closes news window
 	//src << browse(null, "window=playersetup") //closes the player setup window
 	panel.close()
 
