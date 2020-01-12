@@ -30,6 +30,10 @@
 
 	var/hard_whitelisted = 0 // jobs that are hard whitelisted need players to be added to hardjobwhitelist.txt with the format [ckey] - [job] in order to work.
 
+/datum/job/proc/get_job_email()	// whatever this is set to will be the job's communal email. should be persistent.
+	return
+
+
 /datum/job/proc/equip(var/mob/living/carbon/human/H, var/alt_title)
 	var/decl/hierarchy/outfit/outfit = get_outfit(H, alt_title)
 	if(!outfit)
@@ -58,7 +62,7 @@
 
 
 	if(H.client)
-		switch(H.client.prefs.economic_status)
+		switch(H.client.prefs.social_class)
 			if(CLASS_UPPER)
 				if(!H.mind.prefs.played)
 					income = 10000

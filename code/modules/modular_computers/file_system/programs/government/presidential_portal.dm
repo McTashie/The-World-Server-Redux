@@ -27,7 +27,7 @@
 
 /datum/nano_module/program/presidential_portal/proc/tax_range(num)
 	switch(num)
-		if(1 to 80)
+		if(0 to 80)
 			return TRUE
 
 	return FALSE
@@ -158,6 +158,7 @@
 	data["drinking_age"] = persistent_economy.drinking_age
 	data["smoking_age"] = persistent_economy.smoking_age
 	data["gambling_age"] = persistent_economy.gambling_age
+	data["sentencing_age"] = persistent_economy.sentencing_age
 	data["synth_vote"] = "[persistent_economy.synth_vote ? "Can Vote" : "Cannot Vote"]"
 	data["citizenship_vote"] = "[persistent_economy.citizenship_vote ? "Can Vote" : "Cannot Vote"]"
 	data["criminal_vote"] = "[persistent_economy.criminal_vote ? "Can Vote" : "Cannot Vote"]"
@@ -224,11 +225,9 @@
 		upper_tax = persistent_economy.tax_rate_upper * 100
 
 		upper_tax = input(usr, "Please input the new tax rate for upper class citizens. (Min 0% - Max 80%)", "Taxes for Upper Class", upper_tax) as num|null
-		upper_tax = sanitize_integer(upper_tax, 0, 100, initial(upper_tax))
-
 
 		if(!tax_range(upper_tax))
-			error_msg = "This tax range is incorrect. You must enter a decimal between 1 and 80."
+			error_msg = "This tax range is incorrect. You must enter a decimal between 0 and 80."
 			return
 
 		persistent_economy.tax_rate_upper = upper_tax / 100
@@ -248,10 +247,9 @@
 		if(!tax_group) return
 
 		var/new_tax = input(usr, "Please input the new tax rate for \"[tax_group]\". (Min 0% - Max 80%)", "[tax_group]") as num|null
-		new_tax = sanitize_integer(new_tax, 0, 80, initial(new_tax))
 
 		if(!tax_range(new_tax))
-			error_msg = "This tax range is incorrect. You must enter a decimal between 1 and 80."
+			error_msg = "This tax range is incorrect. You must enter a decimal between 0 and 80."
 			return
 
 		new_tax = new_tax / 100
@@ -392,7 +390,6 @@
 		. = 1
 
 		var/age = input(usr, "Please select the minimum drinking age. Min: 13. Max: 25.", "Drinking Age") as num|null
-		age = sanitize_integer(persistent_economy.drinking_age, 0, 100, 25)
 		if(!age)
 			error_msg = "You must enter an age."
 			return
@@ -408,7 +405,6 @@
 		. = 1
 
 		var/age = input(usr, "Please select the minimum smoking age. Min: 13. Max: 25.", "Smoking Age") as num|null
-		age = sanitize_integer(persistent_economy.smoking_age, 0, 100, 25)
 		if(!age)
 			error_msg = "You must enter an age."
 			return
@@ -423,7 +419,6 @@
 		. = 1
 
 		var/age = input(usr, "Please select the minimum gambling age. Min: 13. Max: 25.", "Gambling Age") as num|null
-		age = sanitize_integer(persistent_economy.drinking_age, 0, 100, 25)
 		if(!age)
 			error_msg = "You must enter an age."
 			return
@@ -448,6 +443,21 @@
 			return
 
 		persistent_economy.voting_age = age
+
+	if(href_list["sentencing_age"])
+		. = 1
+
+		var/age = input(usr, "Please select the minimum age for criminal sentencing. Min: 13. Max: 25.", "Criminal Sentencing Age") as num|null
+		age = sanitize_integer(persistent_economy.sentencing_age, 0, 100, 25)
+		if(!age)
+			error_msg = "You must enter an age."
+			return
+
+		if(!age_range(age))
+			error_msg = "This age is incorrect. You must enter a decimal between 13 and 25."
+			return
+
+		persistent_economy.sentencing_age = age
 
 	if(href_list["synth_vote"])
 		. = 1
