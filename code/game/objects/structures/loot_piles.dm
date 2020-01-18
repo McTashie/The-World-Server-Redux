@@ -204,7 +204,8 @@ Loot piles can be depleted, if loot_depleted is turned on.  Note that players wh
 		/obj/item/weapon/beartrap,
 		/obj/item/clothing/suit/storage/vest/press,
 		/obj/item/weapon/material/knife/tacknife,
-		/obj/item/weapon/material/butterfly/switchblade
+		/obj/item/weapon/material/butterfly/switchblade,
+		/obj/item/clothing/head/helmet/tinfoil
 	)
 
 	rare_loot = list(
@@ -355,6 +356,7 @@ Loot piles can be depleted, if loot_depleted is turned on.  Note that players wh
 		/obj/item/weapon/circuitboard/jukebox,
 		/obj/item/weapon/circuitboard/message_monitor,
 		/obj/item/weapon/circuitboard/rcon_console,
+		/obj/item/weapon/circuitboard/chem_master,
 		/obj/item/weapon/smes_coil,
 		/obj/item/weapon/cartridge/engineering,
 		/obj/item/device/analyzer,
