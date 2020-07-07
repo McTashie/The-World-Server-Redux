@@ -10,8 +10,8 @@
 		if(!shuttle)
 			message2 = "Error"
 		else if(shuttle.has_arrive_time())
-			message2 = get_supply_shuttle_timer()
-			if(lentext(message2) > CHARS_PER_LINE)
+			message2 = shuttle.eta_minutes()
+			if(length(message2) > CHARS_PER_LINE)
 				message2 = "Error"
 		else if(shuttle.is_launching())
 			if(shuttle.at_station())

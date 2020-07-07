@@ -14,6 +14,8 @@
 	filedesc = "Business Management Utility"
 	extended_desc = "This program allows you to register a new business or manage an existing one."
 	requires_ntnet = 1
+	available_on_ntnet = 0
+
 	size = 8
 	nanomodule_path = /datum/nano_module/program/business_manager/
 
@@ -115,12 +117,7 @@
 		ui.set_initial_data(data)
 		ui.open()
 
-/datum/nano_module/program/business_manager/proc/reset_fields()
-	b_name = initial(b_name)
-	b_desc = initial(b_desc)
-	b_slogan = initial(b_slogan)
-	b_category = initial(b_category)
-	business_pass = initial(business_pass)
+
 
 /datum/nano_module/program/business_manager/Topic(href, href_list)
 	if(..()) return 1

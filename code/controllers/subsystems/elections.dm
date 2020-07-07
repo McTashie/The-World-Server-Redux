@@ -71,6 +71,18 @@ SUBSYSTEM_DEF(elections)
 		if(28)
 			return TRUE
 
+
+
+/datum/controller/subsystem/elections/proc/can_register()
+	if(snap_election && !is_election_day( get_game_day() ) )
+		return TRUE
+
+	if(SSelections.is_registration_days(get_game_day() ))
+		return TRUE
+
+	return FALSE
+
+
 /datum/controller/subsystem/elections/proc/get_next_election_month()
 	var/info
 
@@ -87,7 +99,25 @@ SUBSYSTEM_DEF(elections)
 /datum/controller/subsystem/elections/proc/get_president()
 	var/prez
 	if(SSelections.current_president && current_president.ckey)
-		prez = "<b>[SSelections.current_president.name]</b> - Played by </b>[SSelections.current_president.ckey]</b> (Won [SSelections.current_president.ckeys_voted.len] out of [SSelections.last_election_votes].)"
+		prez = "<b>[SSelections.current_president.name]</b> - Played by </b>[SSelections.current_president.ckey]</b> (Won [SSelections.current_president.ckeys_voted.len] out of [SSelections.last_election_votes].)<br>"
+
+	var/day = get_game_day()
+
+	if(is_registration_days(day))
+		prez += "It is currently <b>the registration period</b>, you may go to city hall and use the computers there to register for presidential candidacy."
+
+	if(is_campaign_days(day))
+		prez += "It is currently <b>the campaign period</b>, already registered candidates are advised to go out and campaign to gain popularity. "
+		if(!snap_election)
+			prez += "No more registrations will be taken on at this time."
+		else
+			prez += "Due to the snap election, candidates are still able to register up until voting period."
+	if(is_voting_days(day))
+		prez += "It's <b>voting period</b>! The entire city is encouraged to go to the ballot box in city hall to vote for their favourite candidate."
+
+	if(is_election_day(day))
+		prez += "It's <b>election day</b>! Congratulate [SSelections.current_president.ckey] for their success in the election!"
+
 	return prez
 
 /proc/get_president_info()
@@ -139,6 +169,11 @@ SUBSYSTEM_DEF(elections)
 		names += C.name
 
 	return names
+
+/datum/controller/subsystem/elections/proc/uid_is_candidate(uid)
+	for(var/datum/president_candidate/C in political_candidates)
+		if(uid == C.unique_id)
+			return C
 
 /datum/controller/subsystem/elections/proc/getformernames()
 	var/list/names = list()
@@ -293,7 +328,6 @@ SUBSYSTEM_DEF(elections)
 	message.stored_data = eml_cnt
 	message.title = "Congratulations on Presidency: [current_president.name]"
 	message.source = "noreply@nanotrasen.gov.nt"
-	message.timestamp = stationtime2text()
 
 	prez_email.send_mail(prez_email.login, message)
 
@@ -397,5 +431,4 @@ SUBSYSTEM_DEF(elections)
 
 	return 1
 */
-
 

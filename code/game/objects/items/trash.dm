@@ -3,6 +3,7 @@
 
 
 /obj/item/trash
+	name = "trash"
 	var/age = 0
 
 /obj/item/trash/New(var/newloc, var/_age)
@@ -94,6 +95,9 @@
 	name = "candle"
 	icon = 'icons/obj/candle.dmi'
 	icon_state = "candle4"
+
+/obj/item/trash/candle/candelabra_stand
+	icon_state = "candelabra_stand"
 
 /obj/item/trash/liquidfood
 	name = "\improper \"LiquidFood\" ration"

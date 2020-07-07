@@ -6,6 +6,7 @@
 
 /datum/supply_pack/med
 	group = "Medical"
+	spend_type = SPEND_MEDICAL
 
 /datum/supply_pack/med/medical
 	name = "Medical crate"
@@ -64,7 +65,6 @@
 	cost = 25
 	containertype = "/obj/structure/closet/crate/secure"
 	containername = "Surgery crate"
-	access = access_medical
 
 /datum/supply_pack/med/deathalarm
 	name = "Death Alarm crate"
@@ -75,7 +75,6 @@
 	cost = 40
 	containertype = "/obj/structure/closet/crate/secure"
 	containername = "Death Alarm crate"
-	access = access_medical
 
 /datum/supply_pack/med/clotting
 	name = "Clotting Medicine crate"
@@ -85,7 +84,6 @@
 	cost = 100
 	containertype = "/obj/structure/closet/crate/secure"
 	containername = "Clotting Medicine crate"
-	access = access_medical
 
 /datum/supply_pack/med/sterile
 	name = "Sterile equipment crate"
@@ -111,7 +109,6 @@
 	cost = 30
 	containertype = "/obj/structure/closet/crate/secure"
 	containername = "Medical surplus equipment"
-	access = access_medical
 
 /datum/supply_pack/med/cmogear
 	name = "Chief medical officer equipment"
@@ -135,7 +132,6 @@
 	cost = 50
 	containertype = "/obj/structure/closet/crate/secure"
 	containername = "Chief medical officer equipment"
-	access = access_cmo
 
 /datum/supply_pack/med/doctorgear
 	name = "Medical Doctor equipment"
@@ -158,7 +154,6 @@
 	cost = 40
 	containertype = "/obj/structure/closet/crate/secure"
 	containername = "Medical Doctor equipment"
-	access = access_medical_equip
 
 /datum/supply_pack/med/chemistgear
 	name = "Chemist equipment"
@@ -181,7 +176,6 @@
 	cost = 80
 	containertype = "/obj/structure/closet/crate/secure"
 	containername = "Chemist equipment"
-	access = access_chemistry
 
 /datum/supply_pack/med/paramedicgear
 	name = "Paramedic equipment"
@@ -209,7 +203,6 @@
 	cost = 90
 	containertype = "/obj/structure/closet/crate/secure"
 	containername = "Paramedic equipment"
-	access = access_medical_equip
 
 /datum/supply_pack/med/psychiatristgear
 	name = "Psychiatrist equipment"
@@ -228,7 +221,6 @@
 	cost = 50
 	containertype = "/obj/structure/closet/crate/secure"
 	containername = "Psychiatrist equipment"
-	access = access_psychiatrist
 
 /datum/supply_pack/med/medicalscrubs
 	name = "Medical scrubs"
@@ -249,7 +241,6 @@
 	cost = 40
 	containertype = "/obj/structure/closet/crate/secure"
 	containername = "Medical scrubs crate"
-	access = access_medical_equip
 
 /datum/supply_pack/med/autopsy
 	name = "Autopsy equipment"
@@ -266,7 +257,6 @@
 	cost = 30
 	containertype = "/obj/structure/closet/crate/secure"
 	containername = "Autopsy equipment crate"
-	access = access_morgue
 
 /datum/supply_pack/med/medicaluniforms
 	name = "Medical uniforms"
@@ -293,7 +283,6 @@
 	cost = 40
 	containertype = "/obj/structure/closet/crate/secure"
 	containername = "Medical uniform crate"
-	access = access_medical_equip
 
 /datum/supply_pack/med/medicalbiosuits
 	name = "Medical biohazard gear"
@@ -311,7 +300,6 @@
 	cost = 40
 	containertype = "/obj/structure/closet/crate/secure"
 	containername = "Medical biohazard equipment"
-	access = access_medical_equip
 
 /datum/supply_pack/med/portablefreezers
 	name = "Portable freezers crate"
@@ -319,7 +307,6 @@
 	cost = 45
 	containertype = "/obj/structure/closet/crate/secure"
 	containername = "Portable freezers"
-	access = access_medical_equip
 
 /datum/supply_pack/med/virus
 	name = "Virus sample crate"
@@ -327,7 +314,6 @@
 	cost = 45
 	containertype = "/obj/structure/closet/crate/secure"
 	containername = "Virus sample crate"
-	access = access_cmo
 
 /datum/supply_pack/med/defib
 	name = "Defibrillator crate"
@@ -335,3 +321,10 @@
 	cost = 40
 	containertype = /obj/structure/closet/crate/medical
 	containername = "Defibrillator crate"
+
+/datum/supply_pack/med/biomass
+	name = "Biomass Crate"
+	contains = list(/obj/item/weapon/reagent_containers/glass/bottle/biomass = 10)
+	cost = 4000
+	containertype = /obj/structure/closet/crate/medical
+	containername = "Biomass Crate"
