@@ -14,72 +14,15 @@
 
 	days_until_expiry = 1
 
-/datum/bounty/retail/pucker_up
-	name = "Pucker Up"
-	author = "Weeland-Yunati Cosmetics Division"
-	description = "We need ten lipsticks urgently for an Avant-Garde and revolutionary photoshoot. \
-	Hurry! Angelo’s foundation is melting! Our designer told us the perfect photo-finish hex color is \
-	%MAKEUPCOLOR, no other colors will be accepted."
-
-	items_wanted = list(/obj/item/weapon/lipstick = 8)
-
-	department_reward = 150
-	individual_reward = 25
-
-	days_until_expiry = 1
-
-	var/makeup_color = "#FF0000"
-
-/datum/bounty/retail/pucker_up/setup_bounty()
-	makeup_color = "#"+get_random_colour()
-
-/datum/bounty/retail/pucker_up/replace_all_strings()
-	..()
-	description = replacetext(description, "%MAKEUPCOLOR", makeup_color)
-
-/datum/bounty/retail/pucker_up/meets_standards(var/obj/O) // additional custom checks
-	if(istype(O, /obj/item/weapon/lipstick))
-		var/obj/item/weapon/lipstick/makeup = O
-
-		if(makeup.colour == makeup_color)
-			return TRUE
-
-	return FALSE
-
-/datum/bounty/retail/pucker_up/night_shadow
-	name = "Bat Your Lashes"
-	author = "Weeland-Yunati Cosmetics Division"
-	description = "We're doing makeup for a superhero themed photoshoot. For one of the villains we need an eyeshadow that's powerful \
-	and memorable. Our designer said an eyeshadow with %MAKEUPCOLOR would do the trick! You know what to do."
-
-	items_wanted = list(/obj/item/weapon/lipstick/eyeshadow = 8)
-
-	department_reward = 150
-	individual_reward = 25
-
-	days_until_expiry = 1
-
-/datum/bounty/retail/pucker_up/making_me_blush
-	name = "Making Me Blush"
-	author = "Weeland-Yunati Cosmetics Division"
-	description = "We're having an exciting romance based shoot in Blue Colony today for our internet portfolio. The rosey cheeks must \
-	be on point as that's what the competition judges mark for. Our designer insists blusher with the color %MAKEUPCOLOR would be the best choice."
-
-	items_wanted = list(/obj/item/weapon/lipstick/blusher = 8)
-
-	department_reward = 150
-	individual_reward = 25
-
-	days_until_expiry = 1
 
 /datum/bounty/retail/inner_toolbox
 	name = "Channel Your Inner Che"
 	author = "Mime Serial Number 876"
 	description = "Working out at home is a big thing again. I am developing a new martial arts video for my \
-	“something to do at home” subscription video service. It uses random everyday objects as weapons. Works wonders. \
+	\"something to do at home\" subscription video service. It uses random everyday objects as weapons. Works wonders. \
 	This upcoming episode is going to feature toolboxes, so get me fresh ones."
 
-	items_wanted = list(/obj/item/weapon/storage/toolbox = 5)
+	items_wanted = list(/obj/item/weapon/storage/toolbox = 1)
 
 	department_reward = 30
 	individual_reward = 5
@@ -88,31 +31,7 @@
 
 	allow_subtypes = TRUE
 
-/datum/bounty/retail/diva_dresses
-	name = "Sassy Dresses Needed!"
-	author = "Spotlight! Diva Catalogue"
-	description = "We need designer brand dresses to be shipped over to us right away, let us know when you can! Muah!"
 
-	random_items_wanted = list(
-	/obj/item/clothing/under/dress/flamenco = 1,
-	/obj/item/clothing/under/dress/westernbustle = 1,
-	/obj/item/clothing/under/dress/red_swept_dress = 1,
-	/obj/item/clothing/under/dress/blacktango = 1,
-	/obj/item/clothing/under/dress/blacktango/alt = 1,
-	/obj/item/clothing/under/dress/redeveninggown = 1,
-	/obj/item/clothing/under/dress/black_corset = 1,
-	/obj/item/clothing/under/dress/cropdress = 1,
-	/obj/item/clothing/under/dress/darkred = 1,
-	/obj/item/clothing/under/dress/bluedress = 1,
-	/obj/item/clothing/under/dress/twistfront = 1,
-	/obj/item/clothing/under/dress/littleblackdress = 1,
-	/obj/item/clothing/under/dress/festivedress = 1
-	)
-
-	department_reward = 300
-	individual_reward = 50
-
-	days_until_expiry = 2
 
 /datum/bounty/retail/gonna_dye
 	name = "I'm Gonna Dye"
@@ -142,41 +61,118 @@
 	days_until_expiry = 1
 
 
-/datum/bounty/retail/ashtray_coof
-	name = "It's Getting Ashy In Here"
-	author = "Thomas Couf"
-	description = "Yeah, so I invited some friends over. We all like to smoke... now my sofa's ruined. Can't find an ashtray anywhere in my \
-	area, if you can send two for us it would be great."
+/datum/bounty/retail/lord_bucket
+	name = "Need A New Face"
+	author = "Lord Buckethead"
+	description = "It appears I faced a terrifying humiliation at the palace today. I require a new face before going to confront them again."
 
-	items_wanted = list(/obj/item/weapon/material/ashtray = 2)
+	items_wanted = list(/obj/item/weapon/reagent_containers/glass/bucket = 1)
 
-	department_reward = 70
-	individual_reward = 30
-
-	days_until_expiry = 1
-
-/datum/bounty/retail/beanies
-	name = "High End Beanies"
-	author = "Ginger Polluos"
-	description = "Right, it says here on the magazine that customers want silk beanies. So that's what we want. Any color, doesn't matter - they are \
-	into that avant garde stuff anyway. It has to be made out silk, you hear me?"
-
-	items_wanted = list(/obj/item/clothing/head/beanie = 10)
-
-	department_reward = 600
-	individual_reward = 170
+	department_reward = 10
+	individual_reward = 5
 
 	days_until_expiry = 1
 
-/datum/bounty/retail/beanies/meets_standards(var/obj/O) // additional custom checks
-	if(istype(O, /obj/item/clothing/head/beanie))
-		if(O.name_unlabel) // to prevent hand labeller cheating
-			if(findtext(O.name_unlabel, "silk"))
-				return TRUE
-			else
-				return FALSE
+/datum/bounty/retail/fireman
+	name = "Fire Man"
+	author = "Man On Fire"
+	description = "AAAAAAAAAAAAAAAAAAAAH AHHHHHHHHHHHH AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH!"
 
-		if(findtext(O.name, "silk"))
-			return TRUE
+	items_wanted = list(/obj/item/weapon/extinguisher = 1)
 
-	return FALSE
+	department_reward = 15
+	individual_reward = 8
+
+	days_until_expiry = 1
+
+
+/datum/bounty/retail/rightful_protest
+	name = "Rightfully Timed Protest"
+	author = "Anonymous Protestor"
+	description = "It's time to stick it up to the government again, there's five of us so make sure none of our hands are empty. We will be heard! \
+	Justice will be served!"
+
+	items_wanted = list(/obj/item/weapon/picket_sign = 5)
+
+	department_reward = 45
+	individual_reward = 25
+
+	days_until_expiry = 1
+
+/datum/bounty/retail/toy_for_christmas
+	name = "A Toy For Christmas"
+	author = "Collectables R Us"
+	description = "Over here, it's always Christmas - considering the convienience of the holiday. Yes, we need a toy for sick Tommy over here, he's very \
+	specific but we don't mind because he's going to make us the sweet, sweet PR. We can't wait!"
+
+	random_items_wanted = list(/obj/item/weapon/storage/box/snappops,
+				/obj/item/toy/blink,
+				/obj/item/toy/sword,
+				/obj/item/weapon/gun/projectile/revolver/capgun,
+				/obj/item/toy/crossbow,
+				/obj/item/toy/sword,
+				/obj/item/toy/balloon,
+				/obj/item/toy/crossbow,
+				/obj/item/toy/blink,
+				/obj/item/toy/waterflower,
+				/obj/item/toy/eight_ball,
+				/obj/item/toy/eight_ball/conch,
+				/obj/item/toy/prize/ripley,
+				/obj/item/toy/prize/fireripley,
+				/obj/item/toy/prize/deathripley,
+				/obj/item/toy/prize/gygax,
+				/obj/item/toy/prize/durand,
+				/obj/item/toy/prize/honk,
+				/obj/item/toy/prize/marauder,
+				/obj/item/toy/prize/seraph,
+				/obj/item/toy/prize/mauler,
+				/obj/item/toy/prize/odysseus,
+				/obj/item/toy/prize/phazon,
+				/obj/item/toy/stickhorse)
+
+	department_reward = 245
+	individual_reward = 195
+
+	days_until_expiry = 1
+
+
+/datum/bounty/retail/soapy_sods
+	name = "A Soapy Sod"
+	author = "Plank Trollen"
+	description = "I was playing this \"game\" with the Chief of Police over in Ornias, and the man just turns around and slaps me with a misdemeanor! \
+	I guess it's time for round two, where's my soap?"
+
+	items_wanted = list(/obj/item/weapon/soap = 1)
+
+	department_reward = 20
+	individual_reward = 15
+
+	days_until_expiry = 1
+
+	allow_subtypes = TRUE
+
+/datum/bounty/retail/bear_traps
+	name = "The Right To Bear Traps"
+	author = "Bear Grillis"
+	description = "I'm getting him. I'm getting him this time!"
+
+	items_wanted = list(/obj/item/weapon/beartrap = 3)
+
+	department_reward = 150
+	individual_reward = 55
+
+	days_until_expiry = 1
+
+/datum/bounty/retail/noir_drink
+	name = "Something Something Whiskey"
+	author = "Detective Damon"
+	description = "You know that thing... the thing we use to hold my whiskey? What was it again?"
+
+	items_wanted = list(/obj/item/weapon/reagent_containers/food/drinks/flask/barflask = 1)
+
+	department_reward = 90
+	individual_reward = 35
+
+	days_until_expiry = 1
+
+

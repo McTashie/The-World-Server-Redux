@@ -36,6 +36,8 @@
 	var/days_until_expiry = 1		// difference between today and creation date, past this, it will expire.
 
 	//bounty item stuff
+	var/custom_requirement = ""		// actually does nothing, is just there to give players direction, usually paired with a custom completion method.
+
 	var/list/items_wanted = list()
 	var/list/seeds_wanted = list()	// just uses seed id and then amount
 	var/list/grown_wanted = list()
@@ -367,15 +369,27 @@
 						if(reagents_given[R.id] >= reagents_wanted[R.id]) // if given is more than wanted already
 							return FALSE
 
+						var/to_add = reagents_wanted[R.id] - reagents_given[R.id]
+						var/delete_after = FALSE
+
+						if(istype(container, /obj/item/weapon/reagent_containers/pill) || istype(container, /obj/item/weapon/reagent_containers/powder))
+							delete_after = TRUE
+
 						if(R.volume >= reagents_wanted[R.id])
 							if(reagents_wanted[R.id] > reagents_given[R.id]) //
-								var/to_add = reagents_wanted[R.id] - reagents_given[R.id]
 								reagents_given[R.id] += to_add
-								qdel(container)
+
+								container.reagents.remove_reagent(R.id, to_add)
+
+								if(delete_after)
+									qdel(container)
 								return TRUE
 						else
 							reagents_given[R.id] += R.volume
-							qdel(container)
+							container.reagents.remove_reagent(R.id, to_add)
+
+							if(delete_after)
+								qdel(container)
 							return TRUE
 
 
@@ -410,22 +424,23 @@
 	if(LAZYLEN(items_wanted))
 		var/obj/O = the_thing
 
-		var/is_wanted_item = FALSE
+		var/is_wanted_item = null
 
 		if(allow_subtypes)
-			if(is_type_in_list(O.type , items_wanted))
-				is_wanted_item = TRUE
+			for(var/V in items_wanted)
+				if(istype(O, V))
+					is_wanted_item = V
 		else
 			if(O.type in items_wanted)
-				is_wanted_item = TRUE
+				is_wanted_item = O.type
 
 		if(is_wanted_item)
-			if(!items_given[O.type])
-				items_given[O.type] = 1
+			if(!items_given[is_wanted_item])
+				items_given[is_wanted_item] = 1
 				qdel(O)
 				return TRUE
-			else if(items_wanted[O.type] > items_given[O.type])
-				items_given[O.type] += 1
+			else if(items_wanted[is_wanted_item] > items_given[is_wanted_item])
+				items_given[is_wanted_item] += 1
 				qdel(O)
 				return TRUE
 
@@ -444,7 +459,9 @@
 	if(!creation_date)
 		creation_date = full_real_time()
 
-	if(!expiry_days())
+	var/days_expiry = expiry_days()
+
+	if(0 >= days_expiry)
 		expire_bounty()
 
 	if(!isnum(cash_wanted))

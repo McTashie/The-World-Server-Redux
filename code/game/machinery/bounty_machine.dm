@@ -27,7 +27,7 @@
 
 	unique_save_vars = list("starting_department")
 
-	var/restrict_bounty_for_business = TRUE
+	var/restrict_bounty_for_business = FALSE
 
 
 /obj/machinery/bounty_machine/attackby(obj/item/I, mob/user, params)
@@ -160,6 +160,9 @@
 
 		dat += "<span style=\"color:yellow\"><strong>Required:</strong></span>"
 
+		if(current_bounty.custom_requirement)
+			dat += "<br>[current_bounty.custom_requirement]<br> "
+
 		if(LAZYLEN(current_bounty.items_wanted))
 			dat += "<br><strong>Item(s) wanted:</strong><br>"
 			for(var/V in current_bounty.items_wanted)
@@ -232,7 +235,7 @@
 			for(var/V in current_bounty.item_rewards)
 				var/atom/tmp = V
 
-				dat += " - [initial(tmp.name)]\n"
+				dat += " - [initial(tmp.name)]<br>"
 
 		dat += "<br><br><center><a href='?src=\ref[src];choice=complete_bounty;bounty=\ref[current_bounty]'>Confirm Completion</a></center><br>"
 
